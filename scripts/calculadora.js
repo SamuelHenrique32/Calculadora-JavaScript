@@ -1,0 +1,1 @@
+let calculadora = new CalcController();             //poderia ser var
