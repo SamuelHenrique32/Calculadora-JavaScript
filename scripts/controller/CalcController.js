@@ -2,7 +2,7 @@ class CalcController{                 //possui regras de negocio
 
     constructor(){                    //chamado automaticamente quando instancia
 
-
+        this._operation = [];         //atualiza ao clicar
         this._locale = 'pt-BR';
         //seleciona elementos, amarra elemento à variável
         this._displayCalcEl = document.querySelector("#display");
@@ -38,6 +38,79 @@ class CalcController{                 //possui regras de negocio
         });
     }
 
+    clearAll(){
+        this._operation = [];
+    }
+
+    clearEntry(){
+        this._operation.pop();
+    }
+
+    addOperation(value){
+        //add no array
+        this._operation.push(value);
+        console.log(this._operation);
+    }
+
+    setError(){
+        this.displayCalc = "Error";
+    }
+
+    execBtn(value){
+        
+        switch (value) {
+
+            case 'ac':
+                this.clearAll();
+            break;
+
+            case 'ce':
+                this.clearEntry();
+            break;
+
+            case 'soma':
+
+            break;
+
+            case 'subtracao':
+
+            break;
+
+            case 'divisao':
+
+            break;
+
+            case 'multiplicacao':
+
+            break;
+
+            case 'porcento':
+
+            break;
+
+            case 'igual':
+
+            break;
+
+            case '0':
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+            case '6':
+            case '7':
+            case '8':
+            case '9':
+                this.addOperation(parseInt(value));
+            break;
+
+            default:
+                this.setError();
+            break;
+        }
+    }
+
     initButtonsEvents(){
         //pega todas as tags g filhas de button
         let buttons = document.querySelectorAll("#buttons > g, #parts > g");          //sinal > sao seletores filhos
@@ -46,7 +119,8 @@ class CalcController{                 //possui regras de negocio
         buttons.forEach((btn, index)=>{
             //aplicar varios eventos em um elemento
             this.addEventListenerAll(btn, "click drag", e=> {
-                console.log(btn.className.baseVal.replace("btn-",""));
+                let textBtn = btn.className.baseVal.replace("btn-","");
+                this.execBtn(textBtn);                                                //executa acao do botao
             });
             //quando mouse estiver sobre elemento, mudar cursor
             this.addEventListenerAll(btn, "mouseover mouseup mousedown", e =>{
