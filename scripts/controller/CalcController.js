@@ -46,9 +46,43 @@ class CalcController{                 //possui regras de negocio
         this._operation.pop();
     }
 
+    getLastOperation(){
+        return this._operation[this._operation.length-1];
+    }
+
+    setLastOperation(value){
+        this._operation[this._operation.length-1] = value;
+    }
+
+    isOperator(value){
+
+        return (['+', '-', '*', '%', '/'].indexOf(value) > -1);
+    }
+
     addOperation(value){
         //add no array
-        this._operation.push(value);
+
+        console.log('A', isNaN(this.getLastOperation()));
+
+        if(isNaN(this.getLastOperation())){
+            //String
+            if(this.isOperator(value)){
+                //trocar operador
+                this._setLastOperation(value);
+
+            } else if(isNaN(value)) {
+                //outra coisa
+                console.log(value);
+            } else{
+                //deve ser primeiro numero a ser add
+                this._operation.push(value);
+            }
+        } else{
+            //numero
+            let newValue = this.getLastOperation().toString() + value.toString();
+            this.setLastOperation(parseInt(newValue));
+        }
+
         console.log(this._operation);
     }
 
@@ -69,27 +103,31 @@ class CalcController{                 //possui regras de negocio
             break;
 
             case 'soma':
-
+                this.addOperation('+');
             break;
 
             case 'subtracao':
-
+                this.addOperation('-');
             break;
 
             case 'divisao':
-
+                this.addOperation('/');
             break;
 
             case 'multiplicacao':
-
+                this.addOperation('*');
             break;
 
             case 'porcento':
-
+                this.addOperation('%');
             break;
 
             case 'igual':
 
+            break;
+
+            case 'ponto':
+                this.addOperation('.');
             break;
 
             case '0':
