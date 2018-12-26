@@ -1,3 +1,3 @@
-let calculator = new CalcController();             //poderia ser var
+window.calculator = new CalcController();               //global, acessa no console
 
-//calculadora.displayCalc;                          //invoca o getter
+//calculadora.displayCalc;                              //invoca o getter
