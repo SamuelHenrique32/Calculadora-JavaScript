@@ -30,17 +30,28 @@ class CalcController{                 //possui regras de negocio
 
     }
 
+    //adicionar varios eventos em um elemento
+    addEventListenerAll(element, events, fn){
+        //percorre cada evento
+        events.split(' ').forEach(event => {
+            element.addEventListener(event, fn, false);                    //false para adicionar um so (ha o botao e o texto do botao), DOM entender que e para disparar somente uma vez o evento
+        });
+    }
+
     initButtonsEvents(){
         //pega todas as tags g filhas de button
         let buttons = document.querySelectorAll("#buttons > g, #parts > g");          //sinal > sao seletores filhos
         //console.log(buttons);
         //para cada botao
         buttons.forEach((btn, index)=>{
-            btn.addEventListener('click', e=>{
+            //aplicar varios eventos em um elemento
+            this.addEventListenerAll(btn, "click drag", e=> {
                 console.log(btn.className.baseVal.replace("btn-",""));
             });
-
-
+            //quando mouse estiver sobre elemento, mudar cursor
+            this.addEventListenerAll(btn, "mouseover mouseup mousedown", e =>{
+                btn.style.cursor = "pointer";
+            });
         });
     }
 
