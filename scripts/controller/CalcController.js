@@ -10,6 +10,7 @@ class CalcController{                 //possui regras de negocio
         this._timeEl = document.querySelector("#hora");
         this._currentDate;              //underline e atributo privado
         this.initialize();
+        this.initButtonsEvents();
     }
 
     initialize(){
@@ -32,6 +33,15 @@ class CalcController{                 //possui regras de negocio
     initButtonsEvents(){
         //pega todas as tags g filhas de button
         let buttons = document.querySelectorAll("#buttons > g, #parts > g");          //sinal > sao seletores filhos
+        //console.log(buttons);
+        //para cada botao
+        buttons.forEach((btn, index)=>{
+            btn.addEventListener('click', e=>{
+                console.log(btn.className.baseVal.replace("btn-",""));
+            });
+
+
+        });
     }
 
     setDisplayDateTime(){
