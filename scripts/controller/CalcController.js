@@ -22,11 +22,16 @@ class CalcController{                 //possui regras de negocio
 
         }, 1000);
 
-        /*setTimeout(()=>{                                 //executa unica vez, apos 10 segundos
+        /*setTimeout(()=>{                                              //executa unica vez, apos 10 segundos
             //para contagem de tempo e data
             clearInterval(interval);
         }, 10000);*/
 
+    }
+
+    initButtonsEvents(){
+        //pega todas as tags g filhas de button
+        let buttons = document.querySelectorAll("#buttons > g, #parts > g");          //sinal > sao seletores filhos
     }
 
     setDisplayDateTime(){
