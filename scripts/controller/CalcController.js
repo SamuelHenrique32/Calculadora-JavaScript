@@ -187,7 +187,14 @@ class CalcController{                 //possui regras de negocio
     getResult(){
         //console.log('getResult', this._operation);
 
-        return eval(this._operation.join(""));
+        try{
+            return eval(this._operation.join(""));
+        } catch(e){
+            //console.log(e);       mostra erro
+            setTimeout(()=>{        //atrasar senao aparece 0 direto ao inves de ERROR
+                this.setError();
+            }, 1);                  //1ms
+        }
     }
 
     calc(){
