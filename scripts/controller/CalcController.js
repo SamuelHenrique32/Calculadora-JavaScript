@@ -16,6 +16,35 @@ class CalcController{                 //possui regras de negocio
         this.initKeyboard();
     }
 
+    pasteFromClipboard(){
+        //navegador precisa estar escutando
+        //e controla o que acessar
+        document.addEventListener('paste', e=>{
+
+            let text = e.clipboardData.getData('Text');
+
+            this.displayCalc = parseFloat(text);
+
+            console.log(text);
+        });
+    }
+
+    copyToClipboard(){
+        let input = document.createElement('input');
+
+        input.value = this.displayCalc;
+
+        document.body.appendChild(input);
+
+        input.select();
+
+        //manda p SO
+        document.execCommand("Copy");
+
+        //nao mostrar input
+        input.remove();
+    }
+
     initialize(){
 
         this.setDisplayDateTime();
@@ -32,6 +61,8 @@ class CalcController{                 //possui regras de negocio
         }, 10000);*/
 
         this.setLastNumberToDisplay();
+
+        this.pasteFromClipboard();
     }
 
     initKeyboard(){                                                     //foco necessita estar no documento
@@ -78,6 +109,10 @@ class CalcController{                 //possui regras de negocio
                 case '9':
                     this.addOperation(parseInt(e.key));
                     break;
+
+                case 'c':
+                    if(e.ctrlKey) this.copyToClipboard();
+                break;
             }
         });
     }
