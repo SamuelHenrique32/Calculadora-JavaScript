@@ -2,6 +2,8 @@ class CalcController{                 //possui regras de negocio
 
     constructor(){                    //chamado automaticamente quando instancia
 
+        this._lastOperator = '';
+        this._lastNumber = '';
         this._operation = [];         //atualiza ao clicar
         this._locale = 'pt-BR';
         //seleciona elementos, amarra elemento à variável
@@ -72,15 +74,37 @@ class CalcController{                 //possui regras de negocio
         }
     }
 
+    getResult(){
+        //console.log('getResult', this._operation);
+
+        return eval(this._operation.join(""));
+    }
+
     calc(){
 
         let last = '';
 
-        if(this._operation.length > 3){
-            last = this._operation.pop();
+        this._lastOperator = this.getLastItem();
+
+        if(this._operation.length < 3){
+            let firstItem = this._operation[0];
+            this._operation = [firstItem, this._lastOperator, this._lastNumber];
         }
 
-        let result = eval(this._operation.join(""));
+        if(this._operation.length > 3){
+
+            last = this._operation.pop();
+            this._lastNumber = this.getResult();
+
+        } else if(this._operation.length == 3){
+
+            this._lastNumber = this.getLastItem(false);
+        }
+
+        //console.log('lastOperator', this._lastOperator);
+        //console.log('lastNumber', this._lastNumber);
+
+        let result = this.getResult();
 
         if(last == '%'){
 
@@ -96,17 +120,28 @@ class CalcController{                 //possui regras de negocio
         this.setLastNumberToDisplay();
     }
 
-    setLastNumberToDisplay(){
-
-        let lastNumber;
+    getLastItem(isOperator = true){                                             //padrao true
+        let lastItem;
 
         for(let i = this._operation.length-1; i >= 0 ; i--){
 
-            if(!this.isOperator(this._operation[i])){                           //achou numero
-                lastNumber = this._operation[i];
+            if(this.isOperator(this._operation[i]) == isOperator){                           //achou numero
+                lastItem = this._operation[i];
                 break;
             }
         }
+
+        if(!lastItem){
+            //if ternario (condicao) ?(entao) :(senao)
+            lastItem = (isOperator) ? this._lastOperator : this._lastNumber;
+        }
+
+        return lastItem;
+    }
+
+    setLastNumberToDisplay(){
+
+        let lastNumber = this.getLastItem(false);
 
         if(!lastNumber) lastNumber = 0;                                          //se estiver vazio
 
