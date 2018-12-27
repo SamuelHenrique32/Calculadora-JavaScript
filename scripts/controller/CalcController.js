@@ -43,6 +43,8 @@ class CalcController{                 //possui regras de negocio
 
     clearAll(){
         this._operation = [];
+        this._lastNumber = '';
+        this._lastOperator = '';
         this.setLastNumberToDisplay();
     }
 
@@ -159,8 +161,6 @@ class CalcController{                 //possui regras de negocio
                 //trocar operador
                 this.setLastOperation(value);
 
-            } else if(isNaN(value)) {
-                console.log('Outra coisa', value);
             } else{
                 //deve ser primeiro numero a ser add
                 this.pushOperation(value);
@@ -173,7 +173,7 @@ class CalcController{                 //possui regras de negocio
                 this.pushOperation(value);
             } else{
                 let newValue = this.getLastOperation().toString() + value.toString();
-                this.setLastOperation(parseInt(newValue));
+                this.setLastOperation(parseFloat(newValue));
 
                 //atualizar display
                 this.setLastNumberToDisplay();
@@ -184,6 +184,21 @@ class CalcController{                 //possui regras de negocio
 
     setError(){
         this.displayCalc = "Error";
+    }
+
+    addDot(){
+
+        let lastOperation = this.getLastOperation();
+        //console.log(lastOperation);
+
+        if(this.isOperator(lastOperation) || !lastOperation){
+            this.pushOperation('0.');
+        } else{
+            this.setLastOperation(lastOperation.toString() + '.');
+        }
+
+        this.setLastNumberToDisplay();
+
     }
 
     execBtn(value){
@@ -223,7 +238,7 @@ class CalcController{                 //possui regras de negocio
             break;
 
             case 'ponto':
-                this.addOperation('.');
+                this.addDot();
             break;
 
             case '0':
