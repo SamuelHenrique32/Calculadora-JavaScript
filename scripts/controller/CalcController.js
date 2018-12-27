@@ -75,10 +75,24 @@ class CalcController{                 //possui regras de negocio
         let result = eval(this._operation.join(""));
 
         this._operation = [result, last];
+
+        this.setLastNumberToDisplay();
     }
 
     setLastNumberToDisplay(){
 
+        let lastNumber;
+
+        for(let i = this._operation.length-1; i >= 0 ; i--){
+
+            if(!this.isOperator(this._operation[i])){                           //achou numero
+                lastNumber = this._operation[i];
+                break;
+            }
+        }
+
+        //coloca na tela
+        this.displayCalc = lastNumber;
     }
 
     addOperation(value){
@@ -96,6 +110,7 @@ class CalcController{                 //possui regras de negocio
             } else{
                 //deve ser primeiro numero a ser add
                 this.pushOperation(value);
+                this.setLastNumberToDisplay();
             }
         } else{
             //numero
