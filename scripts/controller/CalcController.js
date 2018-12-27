@@ -2,6 +2,8 @@ class CalcController{                 //possui regras de negocio
 
     constructor(){                    //chamado automaticamente quando instancia
 
+        this._audio = new Audio('click.mp3');           //nao nativo do JS
+        this._audioOnOff = false;     //inicialmente desligado
         this._lastOperator = '';
         this._lastNumber = '';
         this._operation = [];         //atualiza ao clicar
@@ -25,7 +27,7 @@ class CalcController{                 //possui regras de negocio
 
             this.displayCalc = parseFloat(text);
 
-            console.log(text);
+            //console.log(text);
         });
     }
 
@@ -63,11 +65,33 @@ class CalcController{                 //possui regras de negocio
         this.setLastNumberToDisplay();
 
         this.pasteFromClipboard();
+
+        document.querySelectorAll('.btn-ac').forEach(btn=>{             //retorna 2
+
+            btn.addEventListener('dblclick', e=>{
+
+                this.toggleAudio();
+            });
+        });
+    }
+
+    toggleAudio(){
+
+        this._audioOnOff = !this._audioOnOff;
+    }
+
+    playAudio(){
+
+        if(this._audioOnOff){
+            this._audio.currentTime = 0;                                //obriga a parar se estiver tocando, botoes pressionados rapidamente
+            this._audio.play();
+        }
     }
 
     initKeyboard(){                                                     //foco necessita estar no documento
         document.addEventListener('keyup', e=>{
             //console.log(e.key);
+            this.playAudio();
 
             switch (e.key) {
 
@@ -288,6 +312,8 @@ class CalcController{                 //possui regras de negocio
     }
 
     execBtn(value){
+        //executa quando pressionar botao
+        this.playAudio();
         
         switch (value) {
 
