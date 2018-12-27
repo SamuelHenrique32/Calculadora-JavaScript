@@ -421,6 +421,13 @@ class CalcController{                 //possui regras de negocio
     }
 
     set displayCalc(value){           //setter method
+
+        //length e para string
+        if(value.toString().length > 10){
+            this.setError();
+            return false;
+        }
+
         this._displayCalcEl.innerHTML = value;
     }
 
